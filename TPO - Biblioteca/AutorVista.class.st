@@ -8,5 +8,5 @@ Class {
 		'bCerrar',
 		'bMinimizar'
 	],
-	#category : #'TPO - Biblioteca2'
+	#category : #'TPO - Biblioteca'
 }

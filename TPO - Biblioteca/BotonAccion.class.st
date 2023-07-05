@@ -5,7 +5,7 @@ Class {
 		'bloque',
 		'bloqueAccion'
 	],
-	#category : #'TPO - Biblioteca2'
+	#category : #'TPO - Biblioteca'
 }
 
 { #category : #propios }

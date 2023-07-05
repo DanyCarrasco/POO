@@ -5,7 +5,7 @@ Class {
 		'nombre',
 		'apellido'
 	],
-	#category : #'TPO - Biblioteca2'
+	#category : #'TPO - Biblioteca'
 }
 
 { #category : #constructor }
