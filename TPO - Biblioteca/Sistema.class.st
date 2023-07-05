@@ -28,8 +28,32 @@ bibliotecas add: unaBiblioteca .
 ]
 
 { #category : #propios }
-Sistema >> agregarUsuarios: unUsuario [
-usuarios add: unUsuario .
+Sistema >> agregarBiblioteca: unId Direccion: unaDireccion Telefono: unTelefono NomRepresentante: unNomRepresentante yCantDiasPrestamo: cantDias [
+"Se crea una biblioteca nueva con los datos recibidos por parametro y se agrega la biblioteca nueva creada"
+
+	bibliotecas add: (Biblioteca new
+			 crear: unId
+			 yDireccion: unaDireccion
+			 yTelefono: unTelefono
+			 yNomRepresentante: unNomRepresentante
+			 yCantDiasPrestamo: cantDias)
+]
+
+{ #category : #propios }
+Sistema >> agregarUsuario: unUsuario [
+
+	usuarios add: unUsuario
+]
+
+{ #category : #propios }
+Sistema >> agregarUsuario: unDni Nombre: unNombre Apellido: unApellido yContrasenia: unaContrasenia [
+"Se crea un Usuario nuevo con los datos recibidos por parametro y se agrega el usuario nuevo creado"
+
+	usuarios add: (Usuario new
+			 crear: unDni
+			 yNombre: unNombre
+			 yApellido: unApellido
+			 yContrasenia: unaContrasenia)
 ]
 
 { #category : #propios }
