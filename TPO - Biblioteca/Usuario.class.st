@@ -6,6 +6,7 @@ Class {
 		'nombre',
 		'apellido',
 		'contrasenia',
+		'finSuspension',
 		'colBibliotecas'
 	],
 	#category : #'TPO - Biblioteca'
@@ -22,6 +23,12 @@ unUsuario iniciar: unDni yNombre: unNombre yApellido: unApellido yContrasenia: u
 { #category : #propios }
 Usuario >> esIgualA: unUsuario [
 ^dni = (unUsuario getDni ).
+]
+
+{ #category : #propios }
+Usuario >> estaSuspendido [
+
+	^ Date today <= finSuspension.
 ]
 
 { #category : #getters }
@@ -50,7 +57,8 @@ Usuario >> iniciar: unDni yNombre: unNombre yApellido: unApellido yContrasenia: 
 	dni := unDni.
 	nombre := unNombre.
 	apellido := unApellido.
-	contrasenia := unaContrasenia .
+	contrasenia := unaContrasenia.
+	finSuspension := Date.
 	colBibliotecas := Biblioteca.
 	colBibliotecas := OrderedCollection new
 ]

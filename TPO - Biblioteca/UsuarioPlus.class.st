@@ -21,6 +21,12 @@ UsuarioPlus class >> crear: unDni yNombre: unNombre yApellido: unApellido yContr
 ]
 
 { #category : #propios }
+UsuarioPlus >> esUsuarioPlus [
+
+	^ true.
+]
+
+{ #category : #propios }
 UsuarioPlus >> getPagoCuota [
 
 	^ pagoCuota .

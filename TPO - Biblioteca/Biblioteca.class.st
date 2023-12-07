@@ -124,33 +124,34 @@ Biblioteca >> obtenerIdYUsuariosRegistrados [
 ]
 
 { #category : #propios }
-Biblioteca >> registrarDosPrestamos: unUsuario con: unaColLibros y: colAudioLibro [
-
-	| prestamoPlus |
-	self registrarUnPrestamo: unUsuario con: unaColLibros.
-	prestamoPlus := Prestamo crear: unUsuario  yColLibros: colAudioLibro .
-	self agregarPrestamo: prestamoPlus .
-	^prestamoPlus verificarPagoDeCuotaDelUsuario .
-]
-
-{ #category : #propios }
 Biblioteca >> registrarPrestamo: unUsuario con: unaColLibros [
 
 	| cadena colAudiolibros |
 	colAudiolibros := OrderedCollection new.
 	cadena := 'No se pudo registrar el prestamo'.
-	(self buscarPrestamoDe: unUsuario) ifFalse: [ 
-		cadena := 'Se pudo registrar el prestamo'.
-		colAudiolibros := self buscarAudiolibros: unaColLibros ].
-	colAudiolibros
-		ifNotEmpty: [ 
-			cadena := (self
-				           registrarDosPrestamos: unUsuario
-				           con: unaColLibros
-				           y: colAudiolibros)
-				          ifTrue: [ cadena , ', ha pagado la cuota del mes' ]
-				          ifFalse: [ cadena , ', no ha pagado la cuota del mes' ] ]
-		ifEmpty: [ self registrarUnPrestamo: unUsuario con: unaColLibros ].
+	unUsuario estaSuspendido
+		ifTrue: [ cadena := cadena , ', esta suspendido' ]
+		ifFalse: [ 
+			(self buscarPrestamoDe: unUsuario)
+				ifNotNil: [ 
+				cadena := cadena , ', porque ya se hizo un prestamo anterior' ]
+				ifNil: [ 
+					self registrarUnPrestamo: unUsuario con: unaColLibros.
+					cadena := 'Se pudo registrar el prestamo'.
+					colAudiolibros := self buscarAudiolibros: unaColLibros ].
+			colAudiolibros ifNotEmpty: [ 
+				unUsuario esUsuarioPlus
+					ifFalse: [ 
+						cadena := cadena
+						          ,
+						          ', pero no se pudo registrar el audiolibro porque no es UsuarioPlus' ]
+					ifTrue: [ 
+						(self registrarUnPrestamoPlus: unUsuario con: colAudiolibros)
+							ifTrue: [ cadena := cadena , ', ha pagado la cuota del mes' ]
+							ifFalse: [ 
+								cadena := cadena
+								          ,
+								          ', pero no se pudo registrar el audiolibro porque no ha pagado la cuota del mes' ] ] ] ].
 	^ cadena
 ]
 
@@ -159,6 +160,16 @@ Biblioteca >> registrarUnPrestamo: unUsuario con: unaColLibros [
 
 	self agregarPrestamo:
 		(Prestamo crear: unUsuario yColLibros: unaColLibros)
+]
+
+{ #category : #propios }
+Biblioteca >> registrarUnPrestamoPlus: unUsuario con: colAudiolibros [
+
+	| prestamoPlus seRegistra |
+	prestamoPlus := Prestamo crear: unUsuario yColLibros: colAudiolibros.
+	seRegistra := prestamoPlus verificarPagoDeCuotaDelUsuario.
+	seRegistra ifTrue: [ self agregarPrestamo: prestamoPlus ].
+	^ seRegistra
 ]
 
 { #category : #settings }

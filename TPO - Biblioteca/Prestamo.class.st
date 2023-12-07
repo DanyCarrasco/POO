@@ -73,10 +73,11 @@ Prestamo >> verificarPrestamoDe: unUsuario [
 ]
 
 { #category : #propios }
-Prestamo >> verificarRetraso:cantDias [
-|cantDiasTranscurridos|
-cantDiasTranscurridos := Date today subtractDate: self getFecha .
-^cantDias < cantDiasTranscurridos .
+Prestamo >> verificarRetraso: cantDias [
 
-
+	| cantDiasTranscurridos cantidadDias|
+	cantidadDias := cantDias .
+	(elUsuario esUsuarioPlus ) ifTrue: [ cantidadDias  := cantidadDias  // 2. ].
+	cantDiasTranscurridos := Date today subtractDate: self getFecha.
+	^ cantidadDias  < cantDiasTranscurridos
 ]
